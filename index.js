@@ -1,6 +1,7 @@
 var sprites = document.getElementById("sprites");
 var map = document.getElementById("map");
 var img = new Image();
+var automatic = (document.getElementById("automatic"));
 var s = ((sprites === null || sprites === void 0 ? void 0 : sprites.offsetWidth) !== undefined ? (sprites === null || sprites === void 0 ? void 0 : sprites.offsetWidth) - 64 : 0) / 16;
 var m = (map === null || map === void 0 ? void 0 : map.offsetWidth) !== undefined ? map === null || map === void 0 ? void 0 : map.offsetWidth : 0;
 var clickedSprite;
@@ -21,7 +22,7 @@ var mapElement = /** @class */ (function () {
         canvas.classList.add("mapElem");
         canvas.width = s;
         canvas.height = s;
-        canvas.id = "map" + this.id;
+        canvas.id = "" + this.id;
         mapsElems.push(canvas);
         canvas.addEventListener("click", function (e) {
             if (!e.ctrlKey) {
@@ -54,6 +55,18 @@ var spriteElement = /** @class */ (function () {
                 }, false);
                 clickedImg.src = canvas.toDataURL();
             });
+            if (automatic.checked === true) {
+                var lastElem = mapsToDraw.pop();
+                mapsToDraw.splice(0, mapsToDraw.length);
+                console.log(lastElem);
+                var nextElem = (document.getElementById("" + (parseInt(lastElem.id) + 1)));
+                mapsToDraw.push(nextElem);
+                console.log(mapsToDraw);
+            }
+            else {
+                mapsToDraw.splice(0, mapsToDraw.length);
+            }
+            borderChange();
         });
         // console.log(this.x, this.y);
         img.addEventListener("load", function () {
@@ -61,7 +74,7 @@ var spriteElement = /** @class */ (function () {
             var h = img.naturalHeight / 20;
             canvas.width = s;
             canvas.height = s;
-            canvas.id = "" + _this.id;
+            canvas.id = "sprite" + _this.id;
             // ctx?.clearRect(w, h, this.x * w, this.y * h);
             ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(img, _this.x * w + 1, _this.y * h + 1, w - 2, h - 2, 0, 0, s, s);
             sprites === null || sprites === void 0 ? void 0 : sprites.appendChild(canvas);
@@ -132,6 +145,24 @@ map.addEventListener("mousemove", function (e) {
         div.style.height = Math.abs(startY - e.pageY) + "px";
     }
 });
+div.addEventListener("mousemove", function (e) {
+    if (draw) {
+        if (startX > e.pageX) {
+            div.style.left = e.pageX + "px";
+        }
+        else {
+            div.style.left = startX + "px";
+        }
+        if (startY > e.pageY) {
+            div.style.top = e.pageY + "px";
+        }
+        else {
+            div.style.top = startY + "px";
+        }
+        div.style.width = Math.abs(startX - e.pageX) + "px";
+        div.style.height = Math.abs(startY - e.pageY) + "px";
+    }
+});
 window.addEventListener("mouseup", function () {
     draw = false;
     var divRect = div.getBoundingClientRect();
@@ -160,6 +191,17 @@ window.addEventListener("mouseup", function () {
     });
     borderChange();
     div.style.display = "none";
+});
+document.querySelector("body").addEventListener("keydown", function (e) {
+    if (e.code === "Delete") {
+        e.preventDefault();
+        mapsToDraw.forEach(function (e) {
+            var ctx = e.getContext("2d");
+            ctx.clearRect(0, 0, s, s);
+        });
+        mapsToDraw.splice(0, mapsToDraw.length);
+        borderChange();
+    }
 });
 var borderChange = function () {
     mapsElems.forEach(function (e) {

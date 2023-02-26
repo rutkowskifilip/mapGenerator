@@ -2,6 +2,9 @@ const sprites = document.getElementById("sprites");
 const map = document.getElementById("map");
 
 const img = new Image();
+const automatic: HTMLInputElement = <HTMLInputElement>(
+  document.getElementById("automatic")
+);
 
 const s: number =
   (sprites?.offsetWidth !== undefined ? sprites?.offsetWidth - 64 : 0) / 16;
@@ -18,7 +21,8 @@ let startY = 0;
 document.querySelector("#right")!.appendChild(div);
 
 class mapElement {
-  id: number;
+  private id: number;
+
   constructor(id: number) {
     this.id = id;
   }
@@ -30,7 +34,7 @@ class mapElement {
     canvas.classList.add("mapElem");
     canvas.width = s;
     canvas.height = s;
-    canvas.id = "map" + this.id;
+    canvas.id = "" + this.id;
     mapsElems.push(canvas);
 
     canvas.addEventListener("click", (e) => {
@@ -47,9 +51,9 @@ class mapElement {
   }
 }
 class spriteElement {
-  x: number;
-  y: number;
-  id: number;
+  private x: number;
+  private y: number;
+  private id: number;
   constructor(x: number, y: number, id: number) {
     this.x = x;
     this.y = y;
@@ -73,8 +77,23 @@ class spriteElement {
           },
           false
         );
+
         clickedImg.src = canvas.toDataURL();
       });
+      if (automatic!.checked === true) {
+        const lastElem = mapsToDraw.pop();
+        mapsToDraw.splice(0, mapsToDraw.length);
+        console.log(lastElem);
+
+        const nextElem: HTMLCanvasElement = <HTMLCanvasElement>(
+          document.getElementById("" + (parseInt(lastElem!.id) + 1))
+        );
+        mapsToDraw.push(nextElem);
+        console.log(mapsToDraw);
+      } else {
+        mapsToDraw.splice(0, mapsToDraw.length);
+      }
+      borderChange();
     });
     // console.log(this.x, this.y);
     img.addEventListener(
@@ -84,7 +103,7 @@ class spriteElement {
         let h: number = img.naturalHeight / 20;
         canvas.width = s;
         canvas.height = s;
-        canvas.id = "" + this.id;
+        canvas.id = "sprite" + this.id;
 
         // ctx?.clearRect(w, h, this.x * w, this.y * h);
         ctx?.drawImage(
@@ -169,6 +188,22 @@ map!.addEventListener("mousemove", (e) => {
     div.style.height = Math.abs(startY - e.pageY) + "px";
   }
 });
+div.addEventListener("mousemove", (e) => {
+  if (draw) {
+    if (startX > e.pageX) {
+      div.style.left = e.pageX + "px";
+    } else {
+      div.style.left = startX + "px";
+    }
+    if (startY > e.pageY) {
+      div.style.top = e.pageY + "px";
+    } else {
+      div.style.top = startY + "px";
+    }
+    div.style.width = Math.abs(startX - e.pageX) + "px";
+    div.style.height = Math.abs(startY - e.pageY) + "px";
+  }
+});
 window.addEventListener("mouseup", () => {
   draw = false;
 
@@ -202,6 +237,17 @@ window.addEventListener("mouseup", () => {
   });
   borderChange();
   div.style.display = "none";
+});
+document.querySelector("body")!.addEventListener("keydown", function (e) {
+  if (e.code === "Delete") {
+    e.preventDefault();
+    mapsToDraw.forEach((e) => {
+      const ctx = e.getContext("2d") as CanvasRenderingContext2D;
+      ctx.clearRect(0, 0, s, s);
+    });
+    mapsToDraw.splice(0, mapsToDraw.length);
+    borderChange();
+  }
 });
 
 const borderChange = (): void => {
