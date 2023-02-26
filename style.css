@@ -1,0 +1,45 @@
+body {
+  background-color: #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#left {
+  width: 40%;
+  text-align: center;
+}
+#right {
+  text-align: center;
+  width: 55%;
+}
+p {
+  color: whitesmoke;
+  font-size: 1.5em;
+}
+#sprites,
+#map {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+canvas {
+  margin: 1px;
+  opacity: 0.5;
+  border: 1px dotted whitesmoke;
+}
+.mapElem {
+  opacity: 1;
+}
+.mapElem:hover {
+  border-color: red;
+}
+.mapElem:focus {
+  border-color: red;
+}
+canvas:hover {
+  opacity: 1;
+}
+div {
+  margin: 0;
+}
