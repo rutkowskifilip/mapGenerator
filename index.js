@@ -6,6 +6,11 @@ var m = (map === null || map === void 0 ? void 0 : map.offsetWidth) !== undefine
 var clickedSprite;
 var mapsToDraw = new Array();
 var mapsElems = new Array();
+var div = document.createElement("div");
+var draw = false;
+var startX = 0;
+var startY = 0;
+document.querySelector("#right").appendChild(div);
 var mapElement = /** @class */ (function () {
     function mapElement(id) {
         this.id = id;
@@ -18,19 +23,12 @@ var mapElement = /** @class */ (function () {
         canvas.height = s;
         canvas.id = "map" + this.id;
         mapsElems.push(canvas);
-        canvas.addEventListener("click", function () {
-            mapsElems.forEach(function (e) {
-                if (e !== null) {
-                    e.style.borderColor = "whitesmoke";
-                }
-            });
-            mapsToDraw.splice(0, mapsToDraw.length);
+        canvas.addEventListener("click", function (e) {
+            if (!e.ctrlKey) {
+                mapsToDraw.splice(0, mapsToDraw.length);
+            }
             mapsToDraw.push(canvas);
-            mapsToDraw.forEach(function (e) {
-                if (e !== null) {
-                    e.style.borderColor = "red";
-                }
-            });
+            borderChange();
             //   ctx.drawImage(clickedSprite, 0, 0);
         });
         map === null || map === void 0 ? void 0 : map.appendChild(canvas);
@@ -96,4 +94,82 @@ window.onload = function () {
         var mapElem = new mapElement(mapId);
         mapElem.loadMap();
     }
+};
+map.addEventListener("mousedown", function (e) {
+    e.preventDefault();
+    if (!e.ctrlKey) {
+        mapsToDraw.splice(0, mapsToDraw.length);
+        borderChange();
+    }
+    div.style.display = "block";
+    div.style.position = "absolute";
+    div.style.left = e.pageX + "px";
+    div.style.top = e.pageY + "px";
+    startX = e.pageX;
+    startY = e.pageY;
+    div.style.zIndex = "1000";
+    div.style.background = "rgba(93, 185, 227,0.7)";
+    div.style.border = "1px dashed blue";
+    div.style.width = "0px";
+    div.style.height = "0px";
+    draw = true;
+});
+map.addEventListener("mousemove", function (e) {
+    if (draw) {
+        if (startX > e.pageX) {
+            div.style.left = e.pageX + "px";
+        }
+        else {
+            div.style.left = startX + "px";
+        }
+        if (startY > e.pageY) {
+            div.style.top = e.pageY + "px";
+        }
+        else {
+            div.style.top = startY + "px";
+        }
+        div.style.width = Math.abs(startX - e.pageX) + "px";
+        div.style.height = Math.abs(startY - e.pageY) + "px";
+    }
+});
+window.addEventListener("mouseup", function () {
+    draw = false;
+    var divRect = div.getBoundingClientRect();
+    mapsElems.forEach(function (e) {
+        var elemRect = e.getBoundingClientRect();
+        var l = divRect.left;
+        var r = divRect.right;
+        var t = divRect.top;
+        var b = divRect.bottom;
+        var xOverlap = elemRect.left < r && elemRect.right > l;
+        var yOverlap = elemRect.top < b && elemRect.bottom > t;
+        var xInside = elemRect.left >= l && elemRect.right <= r;
+        var yInside = elemRect.top >= t && elemRect.bottom <= b;
+        if (xOverlap &&
+            yOverlap &&
+            (xInside ||
+                yInside ||
+                (elemRect.bottom > t &&
+                    elemRect.top < t &&
+                    (elemRect.right > l || elemRect.left < r)) ||
+                (elemRect.top < b &&
+                    elemRect.bottom > b &&
+                    (elemRect.right > l || elemRect.left < r)))) {
+            mapsToDraw.push(e);
+        }
+    });
+    borderChange();
+    div.style.display = "none";
+});
+var borderChange = function () {
+    mapsElems.forEach(function (e) {
+        if (e !== null) {
+            e.style.borderColor = "whitesmoke";
+        }
+    });
+    mapsToDraw.forEach(function (e) {
+        if (e !== null) {
+            e.style.borderColor = "red";
+        }
+    });
 };

@@ -11,6 +11,7 @@ body {
 #right {
   text-align: center;
   width: 55%;
+  display: block;
 }
 p {
   color: whitesmoke;
