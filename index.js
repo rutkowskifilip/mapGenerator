@@ -1,17 +1,20 @@
 var sprites = document.getElementById("sprites");
 var map = document.getElementById("map");
 var img = new Image();
+var undoImg = new Image();
 var automatic = (document.getElementById("automatic"));
 var s = ((sprites === null || sprites === void 0 ? void 0 : sprites.offsetWidth) !== undefined ? (sprites === null || sprites === void 0 ? void 0 : sprites.offsetWidth) - 64 : 0) / 16;
 var m = (map === null || map === void 0 ? void 0 : map.offsetWidth) !== undefined ? map === null || map === void 0 ? void 0 : map.offsetWidth : 0;
 var clickedSprite;
 var mapsToDraw = new Array();
 var mapsElems = new Array();
+var maps = new Array();
 var div = document.createElement("div");
 var draw = false;
 var startX = 0;
 var startY = 0;
 document.querySelector("#right").appendChild(div);
+var undoCount = 0;
 var mapElement = /** @class */ (function () {
     function mapElement(id) {
         this.id = id;
@@ -48,20 +51,25 @@ var spriteElement = /** @class */ (function () {
         var ctx = canvas.getContext("2d");
         canvas.addEventListener("click", function () {
             var clickedImg = new Image();
+            var currentChange = new Array();
             mapsToDraw.forEach(function (e) {
                 var mapCtx = e.getContext("2d");
                 clickedImg.addEventListener("load", function () {
                     mapCtx.drawImage(clickedImg, 0, 0);
+                    currentChange.push({ id: e.id, url: clickedImg.src });
                 }, false);
                 clickedImg.src = canvas.toDataURL();
             });
+            maps.splice(maps.length - undoCount, undoCount);
+            maps.push(currentChange);
+            undoCount = 0;
             if (automatic.checked === true) {
                 var lastElem = mapsToDraw.pop();
                 mapsToDraw.splice(0, mapsToDraw.length);
-                console.log(lastElem);
+                // console.log(lastElem);
                 var nextElem = (document.getElementById("" + (parseInt(lastElem.id) + 1)));
                 mapsToDraw.push(nextElem);
-                console.log(mapsToDraw);
+                // console.log(mapsToDraw);
             }
             else {
                 mapsToDraw.splice(0, mapsToDraw.length);
@@ -101,7 +109,7 @@ window.onload = function () {
             spriteElem.loadImage();
         }
     }
-    var num = Math.floor(m / (s + 4)) * 40;
+    var num = Math.floor(m / (s + 4)) * 1;
     for (var j = 0; j < num; j++) {
         mapId++;
         var mapElem = new mapElement(mapId);
@@ -193,6 +201,7 @@ window.addEventListener("mouseup", function () {
     div.style.display = "none";
 });
 document.querySelector("body").addEventListener("keydown", function (e) {
+    console.log(e.code);
     if (e.code === "Delete") {
         e.preventDefault();
         mapsToDraw.forEach(function (e) {
@@ -201,6 +210,62 @@ document.querySelector("body").addEventListener("keydown", function (e) {
         });
         mapsToDraw.splice(0, mapsToDraw.length);
         borderChange();
+    }
+    else if (e.code === "KeyZ" && e.ctrlKey) {
+        undoCount++;
+        maps[maps.length - undoCount].forEach(function (e) {
+            var undoCanvas = document.getElementById(e.id);
+            console.log(undoCanvas);
+            var ctx = undoCanvas.getContext("2d");
+            var clear = true;
+            for (var i = 0; i < maps.length - undoCount; i++) {
+                maps[i].forEach(function (j) {
+                    if (j.id === e.id) {
+                        if (clear) {
+                            clear = false;
+                            undoImg.src = j.url;
+                        }
+                    }
+                });
+            }
+            if (clear) {
+                ctx.clearRect(0, 0, s, s);
+            }
+            else {
+                undoImg.addEventListener("load", function () {
+                    ctx.drawImage(undoImg, 0, 0);
+                });
+            }
+        });
+    }
+    else if (e.ctrlKey && e.code === "KeyY") {
+        undoCount--;
+        console.log(undoCount);
+        console.log(maps[maps.length - undoCount - 1]);
+        maps[maps.length - undoCount - 1].forEach(function (e) {
+            var undoCanvas = document.getElementById(e.id);
+            var ctx = undoCanvas.getContext("2d");
+            var clear = true;
+            console.log(undoCount);
+            for (var i = 0; i < maps.length - undoCount; i++) {
+                maps[i].forEach(function (j) {
+                    if (j.id === e.id) {
+                        if (clear) {
+                            clear = false;
+                            undoImg.src = j.url;
+                        }
+                    }
+                });
+            }
+            if (clear) {
+                ctx.clearRect(0, 0, s, s);
+            }
+            else {
+                undoImg.addEventListener("load", function () {
+                    ctx.drawImage(undoImg, 0, 0);
+                });
+            }
+        });
     }
 });
 var borderChange = function () {
