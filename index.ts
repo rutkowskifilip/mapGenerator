@@ -2,7 +2,7 @@ const sprites = document.getElementById("sprites");
 const map = document.getElementById("map");
 
 const img = new Image();
-const undoImg = new Image();
+
 const automatic: HTMLInputElement = <HTMLInputElement>(
   document.getElementById("automatic")
 );
@@ -15,6 +15,7 @@ let clickedSprite: string;
 const mapsToDraw: HTMLCanvasElement[] = new Array();
 const mapsElems: HTMLCanvasElement[] = new Array();
 const maps: { id: string; url: string }[][] = new Array();
+
 const div = document.createElement("div");
 let draw = false;
 let startX = 0;
@@ -85,6 +86,7 @@ class spriteElement {
       });
       maps.splice(maps.length - undoCount, undoCount);
       maps.push(currentChange);
+      // maps.push(currentMap);
       undoCount = 0;
 
       if (automatic!.checked === true) {
@@ -251,14 +253,22 @@ document.querySelector("body")!.addEventListener("keydown", function (e) {
 
   if (e.code === "Delete") {
     e.preventDefault();
+    const currentChange = new Array();
+
     mapsToDraw.forEach((e) => {
       const ctx = e.getContext("2d") as CanvasRenderingContext2D;
       ctx.clearRect(0, 0, s, s);
+      currentChange.push({ id: e.id, url: e.toDataURL() });
     });
+    maps.splice(maps.length - undoCount, undoCount);
+    maps.push(currentChange);
     mapsToDraw.splice(0, mapsToDraw.length);
+    undoCount = 0;
     borderChange();
   } else if (e.code === "KeyZ" && e.ctrlKey) {
     undoCount++;
+    console.log(maps[maps.length - undoCount]);
+    const undoImg = new Image();
     maps[maps.length - undoCount].forEach((e) => {
       const undoCanvas: HTMLCanvasElement = document.getElementById(
         e.id
@@ -278,45 +288,53 @@ document.querySelector("body")!.addEventListener("keydown", function (e) {
         });
       }
       if (clear) {
+        console.log("clear " + e.id);
+
         ctx!.clearRect(0, 0, s, s);
       } else {
+        console.log("draw " + e.id);
+
         undoImg.addEventListener("load", () => {
           ctx!.drawImage(undoImg, 0, 0);
         });
       }
     });
   } else if (e.ctrlKey && e.code === "KeyY") {
-    undoCount--;
-    console.log(undoCount);
+    if (undoCount > 0) {
+      undoCount--;
+      // console.log(undoCount);
+      const redoImg = new Image();
+      //   console.log(maps[maps.length - undoCount - 1]);
 
-    console.log(maps[maps.length - undoCount - 1]);
+      maps[maps.length - undoCount - 1].forEach((e) => {
+        const redoCanvas: HTMLCanvasElement = document.getElementById(
+          e.id
+        ) as HTMLCanvasElement;
 
-    maps[maps.length - undoCount - 1].forEach((e) => {
-      const undoCanvas: HTMLCanvasElement = document.getElementById(
-        e.id
-      ) as HTMLCanvasElement;
+        const ctx = redoCanvas.getContext("2d");
+        redoImg.src = e.url;
 
-      const ctx = undoCanvas.getContext("2d");
-      let clear = true;
-      console.log(undoCount);
-      for (let i = 0; i < maps.length - undoCount; i++) {
-        maps[i].forEach((j) => {
-          if (j.id === e.id) {
-            if (clear) {
-              clear = false;
-              undoImg.src = j.url;
-            }
-          }
+        // for (let i = 0; i < maps.length - undoCount; i++) {
+        //   maps[i].forEach((j) => {
+        //     if (j.id === e.id) {
+        //       if (clear) {
+        //         clear = false;
+        //         redoImg.src = j.url;
+        //       }
+        //     }
+        //   });
+        // }
+        // if (clear) {
+        //   ctx!.clearRect(0, 0, s, s);
+        // } else {
+        redoImg.addEventListener("load", () => {
+          console.log(redoImg.src);
+          ctx?.clearRect(0, 0, s, s);
+          ctx!.drawImage(redoImg, 0, 0);
         });
-      }
-      if (clear) {
-        ctx!.clearRect(0, 0, s, s);
-      } else {
-        undoImg.addEventListener("load", () => {
-          ctx!.drawImage(undoImg, 0, 0);
-        });
-      }
-    });
+        // }
+      });
+    }
   }
 });
 

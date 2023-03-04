@@ -1,7 +1,6 @@
 var sprites = document.getElementById("sprites");
 var map = document.getElementById("map");
 var img = new Image();
-var undoImg = new Image();
 var automatic = (document.getElementById("automatic"));
 var s = ((sprites === null || sprites === void 0 ? void 0 : sprites.offsetWidth) !== undefined ? (sprites === null || sprites === void 0 ? void 0 : sprites.offsetWidth) - 64 : 0) / 16;
 var m = (map === null || map === void 0 ? void 0 : map.offsetWidth) !== undefined ? map === null || map === void 0 ? void 0 : map.offsetWidth : 0;
@@ -62,6 +61,7 @@ var spriteElement = /** @class */ (function () {
             });
             maps.splice(maps.length - undoCount, undoCount);
             maps.push(currentChange);
+            // maps.push(currentMap);
             undoCount = 0;
             if (automatic.checked === true) {
                 var lastElem = mapsToDraw.pop();
@@ -204,15 +204,22 @@ document.querySelector("body").addEventListener("keydown", function (e) {
     console.log(e.code);
     if (e.code === "Delete") {
         e.preventDefault();
+        var currentChange_1 = new Array();
         mapsToDraw.forEach(function (e) {
             var ctx = e.getContext("2d");
             ctx.clearRect(0, 0, s, s);
+            currentChange_1.push({ id: e.id, url: e.toDataURL() });
         });
+        maps.splice(maps.length - undoCount, undoCount);
+        maps.push(currentChange_1);
         mapsToDraw.splice(0, mapsToDraw.length);
+        undoCount = 0;
         borderChange();
     }
     else if (e.code === "KeyZ" && e.ctrlKey) {
         undoCount++;
+        console.log(maps[maps.length - undoCount]);
+        var undoImg_1 = new Image();
         maps[maps.length - undoCount].forEach(function (e) {
             var undoCanvas = document.getElementById(e.id);
             console.log(undoCanvas);
@@ -223,49 +230,54 @@ document.querySelector("body").addEventListener("keydown", function (e) {
                     if (j.id === e.id) {
                         if (clear) {
                             clear = false;
-                            undoImg.src = j.url;
+                            undoImg_1.src = j.url;
                         }
                     }
                 });
             }
             if (clear) {
+                console.log("clear " + e.id);
                 ctx.clearRect(0, 0, s, s);
             }
             else {
-                undoImg.addEventListener("load", function () {
-                    ctx.drawImage(undoImg, 0, 0);
+                console.log("draw " + e.id);
+                undoImg_1.addEventListener("load", function () {
+                    ctx.drawImage(undoImg_1, 0, 0);
                 });
             }
         });
     }
     else if (e.ctrlKey && e.code === "KeyY") {
-        undoCount--;
-        console.log(undoCount);
-        console.log(maps[maps.length - undoCount - 1]);
-        maps[maps.length - undoCount - 1].forEach(function (e) {
-            var undoCanvas = document.getElementById(e.id);
-            var ctx = undoCanvas.getContext("2d");
-            var clear = true;
-            console.log(undoCount);
-            for (var i = 0; i < maps.length - undoCount; i++) {
-                maps[i].forEach(function (j) {
-                    if (j.id === e.id) {
-                        if (clear) {
-                            clear = false;
-                            undoImg.src = j.url;
-                        }
-                    }
+        if (undoCount > 0) {
+            undoCount--;
+            // console.log(undoCount);
+            var redoImg_1 = new Image();
+            //   console.log(maps[maps.length - undoCount - 1]);
+            maps[maps.length - undoCount - 1].forEach(function (e) {
+                var redoCanvas = document.getElementById(e.id);
+                var ctx = redoCanvas.getContext("2d");
+                redoImg_1.src = e.url;
+                // for (let i = 0; i < maps.length - undoCount; i++) {
+                //   maps[i].forEach((j) => {
+                //     if (j.id === e.id) {
+                //       if (clear) {
+                //         clear = false;
+                //         redoImg.src = j.url;
+                //       }
+                //     }
+                //   });
+                // }
+                // if (clear) {
+                //   ctx!.clearRect(0, 0, s, s);
+                // } else {
+                redoImg_1.addEventListener("load", function () {
+                    console.log(redoImg_1.src);
+                    ctx === null || ctx === void 0 ? void 0 : ctx.clearRect(0, 0, s, s);
+                    ctx.drawImage(redoImg_1, 0, 0);
                 });
-            }
-            if (clear) {
-                ctx.clearRect(0, 0, s, s);
-            }
-            else {
-                undoImg.addEventListener("load", function () {
-                    ctx.drawImage(undoImg, 0, 0);
-                });
-            }
-        });
+                // }
+            });
+        }
     }
 });
 var borderChange = function () {
