@@ -1,19 +1,21 @@
-import { setUndoCount, undoCount } from "./index.js";
-import { mapsToDraw, mapsElems, maps, s, map } from "./variables.js";
+import { mapsToDraw, maps, s, undoCount, setUndoCount } from "./variables.js";
 import { borderChange } from "./borderChange.js";
+import { save } from "./save.js";
+import { load } from "./load.js";
+import { IMap } from "./types.js";
 
 export const operations = () => {
   document.querySelector("body")!.addEventListener("keydown", function (e) {
     console.log(e.code);
-
+    e.preventDefault();
     if (e.code === "Delete") {
-      e.preventDefault();
-      const currentChange = new Array();
+      const currentChange: IMap[] = new Array();
 
       mapsToDraw.forEach((e) => {
         const ctx = e.getContext("2d") as CanvasRenderingContext2D;
         ctx.clearRect(0, 0, s, s);
-        currentChange.push({ id: e.id, url: e.toDataURL() });
+        const currentChangeElem: IMap = { id: e.id, url: e.toDataURL() };
+        currentChange.push(currentChangeElem);
       });
       maps.splice(maps.length - undoCount, undoCount);
       maps.push(currentChange);
@@ -76,6 +78,10 @@ export const operations = () => {
           // }
         });
       }
+    } else if (e.ctrlKey && e.code === "KeyS") {
+      save();
+    } else if (e.ctrlKey && e.code === "KeyL") {
+      load();
     }
   });
 };

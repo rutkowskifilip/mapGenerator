@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.div = exports.maps = exports.mapsElems = exports.mapsToDraw = exports.clickedSprite = exports.m = exports.s = exports.automatic = exports.img = exports.map = exports.sprites = void 0;
+exports.setUndoCount = exports.undoCount = exports.div = exports.maps = exports.mapsElems = exports.mapsToDraw = exports.clickedSprite = exports.m = exports.s = exports.automatic = exports.img = exports.map = exports.sprites = void 0;
 exports.sprites = document.getElementById("sprites");
 exports.map = document.getElementById("map");
 exports.img = new Image();
@@ -11,3 +11,8 @@ exports.mapsToDraw = new Array();
 exports.mapsElems = new Array();
 exports.maps = new Array();
 exports.div = document.createElement("div");
+exports.undoCount = 0;
+var setUndoCount = function (x) {
+    exports.undoCount = x;
+};
+exports.setUndoCount = setUndoCount;

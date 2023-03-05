@@ -6,9 +6,12 @@ import {
   automatic,
   img,
   sprites,
+  undoCount,
+  setUndoCount,
 } from "./variables.js";
-import { setUndoCount, undoCount } from "./index.js";
+
 import { borderChange } from "./borderChange.js";
+
 export default class SpriteElement {
   private x: number;
   private y: number;

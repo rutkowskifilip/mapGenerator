@@ -2,9 +2,10 @@ import { mapsElems, s, mapsToDraw, map } from "./variables.js";
 import { borderChange } from "./borderChange.js";
 export default class MapElement {
   private id: number;
-
-  constructor(id: number) {
+  private url: string;
+  constructor(id: number, url: string) {
     this.id = id;
+    this.url = url;
   }
   loadMap(): void {
     const canvas: HTMLCanvasElement = document.createElement(
@@ -16,7 +17,13 @@ export default class MapElement {
     canvas.height = s;
     canvas.id = "" + this.id;
     mapsElems.push(canvas);
-
+    if (this.url !== "") {
+      const img = new Image();
+      img.addEventListener("load", () => {
+        ctx.drawImage(img, 0, 0);
+      });
+      img.src = this.url;
+    }
     canvas.addEventListener("click", (e) => {
       if (!e.ctrlKey) {
         mapsToDraw.splice(0, mapsToDraw.length);

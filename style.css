@@ -44,3 +44,6 @@ canvas:hover {
 div {
   margin: 0;
 }
+#fileInput {
+  display: none;
+}

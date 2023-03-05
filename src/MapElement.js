@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var variables_js_1 = require("./variables.js");
 var borderChange_js_1 = require("./borderChange.js");
 var MapElement = /** @class */ (function () {
-    function MapElement(id) {
+    function MapElement(id, url) {
         this.id = id;
+        this.url = url;
     }
     MapElement.prototype.loadMap = function () {
         var canvas = document.createElement("canvas");
@@ -14,6 +15,13 @@ var MapElement = /** @class */ (function () {
         canvas.height = variables_js_1.s;
         canvas.id = "" + this.id;
         variables_js_1.mapsElems.push(canvas);
+        if (this.url !== "") {
+            var img_1 = new Image();
+            img_1.addEventListener("load", function () {
+                ctx.drawImage(img_1, 0, 0);
+            });
+            img_1.src = this.url;
+        }
         canvas.addEventListener("click", function (e) {
             if (!e.ctrlKey) {
                 variables_js_1.mapsToDraw.splice(0, variables_js_1.mapsToDraw.length);

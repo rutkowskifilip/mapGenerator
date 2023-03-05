@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var variables_js_1 = require("./variables.js");
-var index_js_1 = require("./index.js");
 var borderChange_js_1 = require("./borderChange.js");
 var SpriteElement = /** @class */ (function () {
     function SpriteElement(x, y, id) {
@@ -24,10 +23,10 @@ var SpriteElement = /** @class */ (function () {
                 }, false);
                 clickedImg.src = canvas.toDataURL();
             });
-            variables_js_1.maps.splice(variables_js_1.maps.length - index_js_1.undoCount, index_js_1.undoCount);
+            variables_js_1.maps.splice(variables_js_1.maps.length - variables_js_1.undoCount, variables_js_1.undoCount);
             variables_js_1.maps.push(currentChange);
             // maps.push(currentMap);
-            (0, index_js_1.setUndoCount)(0);
+            (0, variables_js_1.setUndoCount)(0);
             if (variables_js_1.automatic.checked === true) {
                 var lastElem = variables_js_1.mapsToDraw.pop();
                 variables_js_1.mapsToDraw.splice(0, variables_js_1.mapsToDraw.length);
