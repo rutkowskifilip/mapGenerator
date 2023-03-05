@@ -1,15 +1,17 @@
 import MapElement from "./MapElement.js";
 import SpriteElement from "./SpriteElement.js";
 import { operations } from "./operations.js";
-export let undoCount = 0;
-export const setUndoCount = (x: number) => {
-  undoCount = x;
-};
 import { m, s } from "./variables.js";
+import { select } from "./select.js";
 
 let spriteId: number = 0;
 let mapId: number = 0;
 operations();
+select();
+export let undoCount = 0;
+export const setUndoCount = (x: number) => {
+  undoCount = x;
+};
 window.onload = (): void => {
   for (let j = 0; j < 20; j++) {
     for (let i = 0; i < 16; i++) {

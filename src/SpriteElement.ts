@@ -1,6 +1,14 @@
-import { mapsToDraw, maps, s, m, automatic, img, sprites } from "./variables";
-import { setUndoCount, undoCount } from ".";
-import { borderChange } from "./borderChange";
+import {
+  mapsToDraw,
+  maps,
+  s,
+  m,
+  automatic,
+  img,
+  sprites,
+} from "./variables.js";
+import { setUndoCount, undoCount } from "./index.js";
+import { borderChange } from "./borderChange.js";
 export default class SpriteElement {
   private x: number;
   private y: number;
