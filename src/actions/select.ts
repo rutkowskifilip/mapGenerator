@@ -1,4 +1,4 @@
-import { map, mapsToDraw, mapsElems } from "./variables.js";
+import { map, selectedMaps, mapsElems } from "../variables.js";
 import { borderChange } from "./borderChange.js";
 let startX = 0;
 let startY = 0;
@@ -10,7 +10,7 @@ export const select = () => {
   map!.addEventListener("mousedown", (e) => {
     e.preventDefault();
     if (!e.ctrlKey) {
-      mapsToDraw.splice(0, mapsToDraw.length);
+      selectedMaps.splice(0, selectedMaps.length);
       borderChange();
     }
     div.style.display = "block";
@@ -86,7 +86,7 @@ export const select = () => {
             elemRect.bottom > b &&
             (elemRect.right > l || elemRect.left < r)))
       ) {
-        mapsToDraw.push(e);
+        selectedMaps.push(e);
       }
     });
     borderChange();

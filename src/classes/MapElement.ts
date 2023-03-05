@@ -1,5 +1,5 @@
-import { mapsElems, s, mapsToDraw, map } from "./variables.js";
-import { borderChange } from "./borderChange.js";
+import { mapsElems, s, selectedMaps, map } from "../variables.js";
+import { borderChange } from "../actions/borderChange.js";
 export default class MapElement {
   private id: number;
   private url: string;
@@ -26,9 +26,9 @@ export default class MapElement {
     }
     canvas.addEventListener("click", (e) => {
       if (!e.ctrlKey) {
-        mapsToDraw.splice(0, mapsToDraw.length);
+        selectedMaps.splice(0, selectedMaps.length);
       }
-      mapsToDraw.push(canvas);
+      selectedMaps.push(canvas);
 
       borderChange();
 

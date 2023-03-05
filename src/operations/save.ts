@@ -12,10 +12,8 @@ export const save = () => {
   if (name) {
     const filename = name + ".json";
     const blob = new Blob([data], { type: type });
-    console.log(blob);
 
     const url = URL.createObjectURL(blob);
-    console.log(url);
 
     const link = document.createElement("a");
     link.innerText = "save";

@@ -1,8 +1,8 @@
-import MapElement from "./MapElement.js";
-import SpriteElement from "./SpriteElement.js";
+import MapElement from "./classes/MapElement.js";
+import SpriteElement from "./classes/SpriteElement.js";
 import { operations } from "./operations.js";
 import { m, s } from "./variables.js";
-import { select } from "./select.js";
+import { select } from "./actions/select.js";
 operations();
 select();
 

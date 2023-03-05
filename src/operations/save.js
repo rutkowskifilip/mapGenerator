@@ -13,9 +13,7 @@ var save = function () {
     if (name) {
         var filename = name + ".json";
         var blob = new Blob([data], { type: type });
-        console.log(blob);
         var url_1 = URL.createObjectURL(blob);
-        console.log(url_1);
         var link = document.createElement("a");
         link.innerText = "save";
         link.href = url_1;

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.load = void 0;
-var MapElement_1 = require("./MapElement");
-var variables_1 = require("./variables");
+var MapElement_js_1 = require("../classes/MapElement.js");
+var variables_js_1 = require("../variables.js");
 var load = function () {
     var fileInput = document.getElementById("fileInput");
     fileInput.click();
@@ -18,9 +18,9 @@ var load = function () {
             reader_1.addEventListener("load", function () {
                 var data = reader_1.result;
                 var arr = JSON.parse(data);
-                variables_1.map.innerHTML = "";
+                variables_js_1.map.innerHTML = "";
                 arr.forEach(function (e, i) {
-                    var mapElem = new MapElement_1.default(i, e);
+                    var mapElem = new MapElement_js_1.default(i, e);
                     mapElem.loadMap();
                 });
             });

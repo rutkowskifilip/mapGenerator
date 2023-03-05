@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.select = void 0;
-var variables_js_1 = require("./variables.js");
+var variables_js_1 = require("../variables.js");
 var borderChange_js_1 = require("./borderChange.js");
 var startX = 0;
 var startY = 0;
@@ -12,7 +12,7 @@ var select = function () {
     variables_js_1.map.addEventListener("mousedown", function (e) {
         e.preventDefault();
         if (!e.ctrlKey) {
-            variables_js_1.mapsToDraw.splice(0, variables_js_1.mapsToDraw.length);
+            variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
             (0, borderChange_js_1.borderChange)();
         }
         div.style.display = "block";
@@ -87,7 +87,7 @@ var select = function () {
                     (elemRect.top < b &&
                         elemRect.bottom > b &&
                         (elemRect.right > l || elemRect.left < r)))) {
-                variables_js_1.mapsToDraw.push(e);
+                variables_js_1.selectedMaps.push(e);
             }
         });
         (0, borderChange_js_1.borderChange)();

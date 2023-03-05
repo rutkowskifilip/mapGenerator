@@ -1,4 +1,4 @@
-import { mapsElems, mapsToDraw } from "./variables.js";
+import { mapsElems, selectedMaps } from "../variables.js";
 export const borderChange = (): void => {
   mapsElems.forEach((e) => {
     if (e !== null) {
@@ -6,7 +6,7 @@ export const borderChange = (): void => {
     }
   });
 
-  mapsToDraw.forEach((e) => {
+  selectedMaps.forEach((e) => {
     if (e !== null) {
       e!.style.borderColor = "red";
     }

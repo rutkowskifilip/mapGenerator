@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var MapElement_js_1 = require("./MapElement.js");
-var SpriteElement_js_1 = require("./SpriteElement.js");
+var MapElement_js_1 = require("./classes/MapElement.js");
+var SpriteElement_js_1 = require("./classes/SpriteElement.js");
 var operations_js_1 = require("./operations.js");
 var variables_js_1 = require("./variables.js");
-var select_js_1 = require("./select.js");
+var select_js_1 = require("./actions/select.js");
 (0, operations_js_1.operations)();
 (0, select_js_1.select)();
 window.onload = function () {

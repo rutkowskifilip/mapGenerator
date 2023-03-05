@@ -1,5 +1,5 @@
 import {
-  mapsToDraw,
+  selectedMaps,
   maps,
   s,
   m,
@@ -8,9 +8,9 @@ import {
   sprites,
   undoCount,
   setUndoCount,
-} from "./variables.js";
+} from "../variables.js";
 
-import { borderChange } from "./borderChange.js";
+import { borderChange } from "../actions/borderChange.js";
 
 export default class SpriteElement {
   private x: number;
@@ -30,7 +30,7 @@ export default class SpriteElement {
     canvas.addEventListener("click", () => {
       const clickedImg = new Image();
       const currentChange = new Array();
-      mapsToDraw.forEach((e) => {
+      selectedMaps.forEach((e) => {
         const mapCtx = e.getContext("2d") as CanvasRenderingContext2D;
         clickedImg.addEventListener(
           "load",
@@ -49,17 +49,17 @@ export default class SpriteElement {
       setUndoCount(0);
 
       if (automatic!.checked === true) {
-        const lastElem = mapsToDraw.pop();
-        mapsToDraw.splice(0, mapsToDraw.length);
+        const lastElem = selectedMaps.pop();
+        selectedMaps.splice(0, selectedMaps.length);
         // console.log(lastElem);
 
         const nextElem: HTMLCanvasElement = <HTMLCanvasElement>(
           document.getElementById("" + (parseInt(lastElem!.id) + 1))
         );
-        mapsToDraw.push(nextElem);
-        // console.log(mapsToDraw);
+        selectedMaps.push(nextElem);
+        // console.log(selectedMaps);
       } else {
-        mapsToDraw.splice(0, mapsToDraw.length);
+        selectedMaps.splice(0, selectedMaps.length);
       }
       borderChange();
     });

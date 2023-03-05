@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var variables_js_1 = require("./variables.js");
-var borderChange_js_1 = require("./borderChange.js");
+var variables_js_1 = require("../variables.js");
+var borderChange_js_1 = require("../actions/borderChange.js");
 var MapElement = /** @class */ (function () {
     function MapElement(id, url) {
         this.id = id;
@@ -24,9 +24,9 @@ var MapElement = /** @class */ (function () {
         }
         canvas.addEventListener("click", function (e) {
             if (!e.ctrlKey) {
-                variables_js_1.mapsToDraw.splice(0, variables_js_1.mapsToDraw.length);
+                variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
             }
-            variables_js_1.mapsToDraw.push(canvas);
+            variables_js_1.selectedMaps.push(canvas);
             (0, borderChange_js_1.borderChange)();
             //   ctx.drawImage(clickedSprite, 0, 0);
         });

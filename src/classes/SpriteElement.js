@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var variables_js_1 = require("./variables.js");
-var borderChange_js_1 = require("./borderChange.js");
+var variables_js_1 = require("../variables.js");
+var borderChange_js_1 = require("../actions/borderChange.js");
 var SpriteElement = /** @class */ (function () {
     function SpriteElement(x, y, id) {
         this.x = x;
@@ -15,7 +15,7 @@ var SpriteElement = /** @class */ (function () {
         canvas.addEventListener("click", function () {
             var clickedImg = new Image();
             var currentChange = new Array();
-            variables_js_1.mapsToDraw.forEach(function (e) {
+            variables_js_1.selectedMaps.forEach(function (e) {
                 var mapCtx = e.getContext("2d");
                 clickedImg.addEventListener("load", function () {
                     mapCtx.drawImage(clickedImg, 0, 0);
@@ -28,15 +28,15 @@ var SpriteElement = /** @class */ (function () {
             // maps.push(currentMap);
             (0, variables_js_1.setUndoCount)(0);
             if (variables_js_1.automatic.checked === true) {
-                var lastElem = variables_js_1.mapsToDraw.pop();
-                variables_js_1.mapsToDraw.splice(0, variables_js_1.mapsToDraw.length);
+                var lastElem = variables_js_1.selectedMaps.pop();
+                variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
                 // console.log(lastElem);
                 var nextElem = (document.getElementById("" + (parseInt(lastElem.id) + 1)));
-                variables_js_1.mapsToDraw.push(nextElem);
-                // console.log(mapsToDraw);
+                variables_js_1.selectedMaps.push(nextElem);
+                // console.log(selectedMaps);
             }
             else {
-                variables_js_1.mapsToDraw.splice(0, variables_js_1.mapsToDraw.length);
+                variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
             }
             (0, borderChange_js_1.borderChange)();
         });
