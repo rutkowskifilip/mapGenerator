@@ -89,6 +89,7 @@ export const select = () => {
         selectedMaps.push(e);
       }
     });
+
     borderChange();
     div.style.display = "none";
   });

@@ -17,10 +17,31 @@ var setUndoCount = function (x) {
     exports.undoCount = x;
 };
 exports.setUndoCount = setUndoCount;
-var setCopiedMaps = function (maps) {
-    exports.copiedMaps.splice(0, exports.copiedMaps.length);
-    maps.forEach(function (e) {
-        exports.copiedMaps.push(e);
-    });
+var setCopiedMaps = function (maps, cut) {
+    if (cut) {
+        maps.forEach(function (e) {
+            var canvas = document.createElement("canvas");
+            canvas.width = exports.s;
+            canvas.height = exports.s;
+            canvas.style.position = "absolute";
+            canvas.style.top = e.getBoundingClientRect().top + "px";
+            canvas.style.left = e.getBoundingClientRect().left + "px";
+            canvas.style.opacity = "0";
+            var ctx = canvas.getContext("2d");
+            var img = new Image();
+            img.addEventListener("load", function () {
+                ctx.drawImage(img, 0, 0);
+            });
+            document.querySelector("body").appendChild(canvas);
+            var bound = canvas.getBoundingClientRect();
+            img.src = e.toDataURL();
+            exports.copiedMaps.push(canvas);
+        });
+    }
+    else {
+        maps.forEach(function (e) {
+            exports.copiedMaps.push(e);
+        });
+    }
 };
 exports.setCopiedMaps = setCopiedMaps;

@@ -13,7 +13,7 @@ body {
   width: 55%;
   display: block;
 }
-p {
+h1 {
   color: whitesmoke;
   font-size: 1.5em;
 }
@@ -46,4 +46,37 @@ div {
 }
 #fileInput {
   display: none;
+}
+#contextMenu {
+  display: none;
+  position: absolute;
+  flex-direction: column;
+  background-color: #1c1b22;
+  width: 15%;
+  color: whitesmoke;
+  border-radius: 8px;
+  cursor: default;
+}
+
+#contextMenu > div {
+  border-top: 0.2px;
+  padding: 5px;
+  padding-left: 10px;
+  margin-left: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+#contextMenu > div:hover {
+  background-color: #2b2a33;
+}
+p {
+  margin: 0;
+  font-size: 1em;
+}
+p.shortcut {
+  font-size: 0.8rem;
+  opacity: 0.5;
 }

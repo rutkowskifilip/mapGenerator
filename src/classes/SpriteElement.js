@@ -25,34 +25,28 @@ var SpriteElement = /** @class */ (function () {
             });
             variables_js_1.maps.splice(variables_js_1.maps.length - variables_js_1.undoCount, variables_js_1.undoCount);
             variables_js_1.maps.push(currentChange);
-            // maps.push(currentMap);
             (0, variables_js_1.setUndoCount)(0);
             if (variables_js_1.automatic.checked === true) {
                 var lastElem = variables_js_1.selectedMaps.pop();
                 variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
-                // console.log(lastElem);
                 var nextElem = (document.getElementById("" + (parseInt(lastElem.id) + 1)));
                 variables_js_1.selectedMaps.push(nextElem);
-                // console.log(selectedMaps);
             }
             else {
                 variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
             }
             (0, borderChange_js_1.borderChange)();
         });
-        // console.log(this.x, this.y);
         variables_js_1.img.addEventListener("load", function () {
             var w = variables_js_1.img.naturalWidth / 32;
             var h = variables_js_1.img.naturalHeight / 20;
             canvas.width = variables_js_1.s;
             canvas.height = variables_js_1.s;
             canvas.id = "sprite" + _this.id;
-            // ctx?.clearRect(w, h, this.x * w, this.y * h);
             ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(variables_js_1.img, _this.x * w + 1, _this.y * h + 1, w - 2, h - 2, 0, 0, variables_js_1.s, variables_js_1.s);
             variables_js_1.sprites === null || variables_js_1.sprites === void 0 ? void 0 : variables_js_1.sprites.appendChild(canvas);
         }, false);
         variables_js_1.img.src = "sprites.png"; // Set source path
-        // console.log(this.x*w, this.y*h,w, h);
     };
     return SpriteElement;
 }());

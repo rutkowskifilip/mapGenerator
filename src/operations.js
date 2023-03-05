@@ -9,7 +9,16 @@ var redo_js_1 = require("./operations/redo.js");
 var copy_js_1 = require("./operations/copy.js");
 var variables_js_1 = require("./variables.js");
 var paste_js_1 = require("./operations/paste.js");
+var cut_js_1 = require("./operations/cut.js");
+var ContextMenu_js_1 = require("./classes/ContextMenu.js");
 var operations = function () {
+    var menu = new ContextMenu_js_1.ContextMenu(undo_js_1.undo, redo_js_1.redo, copy_js_1.copy, cut_js_1.cut, paste_js_1.paste, save_js_1.save, load_js_1.load);
+    variables_js_1.map.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+        menu.show(e.pageX, e.pageY);
+        window.addEventListener("click", menu.hide);
+        console.log("aaa");
+    });
     document.querySelector("body").addEventListener("keydown", function (e) {
         e.preventDefault();
         if (e.code === "Delete") {
@@ -32,6 +41,9 @@ var operations = function () {
         }
         else if (e.ctrlKey && e.code === "KeyV") {
             (0, paste_js_1.paste)();
+        }
+        else if (e.ctrlKey && e.code === "KeyX") {
+            (0, cut_js_1.cut)(variables_js_1.selectedMaps);
         }
     });
 };

@@ -24,9 +24,29 @@ export let undoCount = 0;
 export const setUndoCount = (x: number) => {
   undoCount = x;
 };
-export const setCopiedMaps = (maps: HTMLCanvasElement[]) => {
-  copiedMaps.splice(0, copiedMaps.length);
-  maps.forEach((e) => {
-    copiedMaps.push(e);
-  });
+export const setCopiedMaps = (maps: HTMLCanvasElement[], cut: boolean) => {
+  if (cut) {
+    maps.forEach((e) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = s;
+      canvas.height = s;
+      canvas.style.position = "absolute";
+      canvas.style.top = e.getBoundingClientRect().top + "px";
+      canvas.style.left = e.getBoundingClientRect().left + "px";
+      canvas.style.opacity = "0";
+      const ctx = canvas.getContext("2d");
+      const img = new Image();
+      img.addEventListener("load", () => {
+        ctx.drawImage(img, 0, 0);
+      });
+      document.querySelector("body").appendChild(canvas);
+      const bound = canvas.getBoundingClientRect();
+      img.src = e.toDataURL();
+      copiedMaps.push(canvas);
+    });
+  } else {
+    maps.forEach((e) => {
+      copiedMaps.push(e);
+    });
+  }
 };

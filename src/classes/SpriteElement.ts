@@ -45,25 +45,21 @@ export default class SpriteElement {
       });
       maps.splice(maps.length - undoCount, undoCount);
       maps.push(currentChange);
-      // maps.push(currentMap);
       setUndoCount(0);
 
       if (automatic!.checked === true) {
         const lastElem = selectedMaps.pop();
         selectedMaps.splice(0, selectedMaps.length);
-        // console.log(lastElem);
 
         const nextElem: HTMLCanvasElement = <HTMLCanvasElement>(
           document.getElementById("" + (parseInt(lastElem!.id) + 1))
         );
         selectedMaps.push(nextElem);
-        // console.log(selectedMaps);
       } else {
         selectedMaps.splice(0, selectedMaps.length);
       }
       borderChange();
     });
-    // console.log(this.x, this.y);
     img.addEventListener(
       "load",
       () => {
@@ -73,7 +69,6 @@ export default class SpriteElement {
         canvas.height = s;
         canvas.id = "sprite" + this.id;
 
-        // ctx?.clearRect(w, h, this.x * w, this.y * h);
         ctx?.drawImage(
           img,
           this.x * w + 1,
@@ -90,7 +85,5 @@ export default class SpriteElement {
       false
     );
     img.src = "sprites.png"; // Set source path
-
-    // console.log(this.x*w, this.y*h,w, h);
   }
 }

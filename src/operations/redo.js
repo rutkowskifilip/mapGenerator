@@ -5,9 +5,7 @@ var variables_js_1 = require("../variables.js");
 var redo = function () {
     if (variables_js_1.undoCount > 0) {
         (0, variables_js_1.setUndoCount)(variables_js_1.undoCount - 1);
-        // console.log(undoCount);
         var redoImg_1 = new Image();
-        //   console.log(maps[maps.length - undoCount - 1]);
         variables_js_1.maps[variables_js_1.maps.length - variables_js_1.undoCount - 1].forEach(function (e) {
             var redoCanvas = document.getElementById(e.id);
             var ctx = redoCanvas.getContext("2d");

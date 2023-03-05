@@ -6,21 +6,18 @@ var variables_js_1 = require("../variables.js");
 var paste = function () {
     var selectedBounds = new Array();
     var canvases = new Array();
+    var pasted = false;
     if (variables_js_1.copiedMaps.length > 0) {
         variables_js_1.copiedMaps.forEach(function (e) {
             var eRect = e.getBoundingClientRect();
             var bounds = {
                 left: eRect.left,
                 top: eRect.top,
-                right: eRect.right,
-                bottom: eRect.bottom,
             };
             selectedBounds.push(bounds);
             var elemBound = {
                 left: eRect.left,
                 top: eRect.top,
-                right: eRect.right,
-                bottom: eRect.bottom,
             };
             var canvas = document.createElement("canvas");
             canvas.width = variables_js_1.s;
@@ -47,15 +44,15 @@ var paste = function () {
         var bounds = {
             top: eRect.top,
             left: eRect.left,
-            right: eRect.right,
-            bottom: eRect.bottom,
         };
         mapElemsBounds.push({ canvas: e, bounds: bounds });
     });
     var previousX = 0;
     var previousY = 0;
     variables_js_1.map.addEventListener("mousemove", function (e) {
-        variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
+        if (!pasted) {
+            variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
+        }
         canvases.forEach(function (elem) {
             var canvas = elem.canvas;
             var bounds = elem.bounds;
@@ -72,26 +69,24 @@ var paste = function () {
                     previousY = e.pageY;
                     variables_js_1.selectedMaps.push(i.canvas);
                     selectedCanvases.push(i.canvas);
-                    console.log(variables_js_1.selectedMaps.length);
                 }
             });
             (0, borderChange_js_1.borderChange)();
         });
     });
     variables_js_1.map.addEventListener("click", function () {
-        console.log(selectedCanvases.length);
         selectedCanvases = selectedCanvases.slice(-variables_js_1.copiedMaps.length);
-        console.log(selectedCanvases.length);
         if (variables_js_1.copiedMaps.length > 0) {
             selectedCanvases.forEach(function (e, i) {
                 var ctx = e.getContext("2d");
                 var img = new Image();
                 img.addEventListener("load", function () {
+                    ctx.clearRect(0, 0, variables_js_1.s, variables_js_1.s);
                     ctx.drawImage(img, 0, 0);
-                    variables_js_1.copiedMaps.splice(0, variables_js_1.copiedMaps.length);
                     canvases.splice(0, canvases.length);
                     variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
                     (0, borderChange_js_1.borderChange)();
+                    pasted = true;
                     Array.from(document.getElementsByClassName("paste")).forEach(function (elem) {
                         document.querySelector("body").removeChild(elem);
                     });
@@ -99,6 +94,6 @@ var paste = function () {
                 img.src = variables_js_1.copiedMaps[i].toDataURL();
             });
         }
-    });
+    }, { once: true });
 };
 exports.paste = paste;
