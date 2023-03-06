@@ -76,6 +76,29 @@ var paste = function () {
     });
     variables_js_1.map.addEventListener("click", function () {
         selectedCanvases = selectedCanvases.slice(-variables_js_1.copiedMaps.length);
+        console.log("klik");
+        if (variables_js_1.copiedMaps.length > 0) {
+            selectedCanvases.forEach(function (e, i) {
+                var ctx = e.getContext("2d");
+                var img = new Image();
+                img.addEventListener("load", function () {
+                    ctx.clearRect(0, 0, variables_js_1.s, variables_js_1.s);
+                    ctx.drawImage(img, 0, 0);
+                    canvases.splice(0, canvases.length);
+                    variables_js_1.selectedMaps.splice(0, variables_js_1.selectedMaps.length);
+                    (0, borderChange_js_1.borderChange)();
+                    pasted = true;
+                    Array.from(document.getElementsByClassName("paste")).forEach(function (elem) {
+                        document.querySelector("body").removeChild(elem);
+                    });
+                });
+                img.src = variables_js_1.copiedMaps[i].toDataURL();
+            });
+        }
+    }, { once: true });
+    variables_js_1.map.addEventListener("mousedown", function () {
+        selectedCanvases = selectedCanvases.slice(-variables_js_1.copiedMaps.length);
+        console.log("klik");
         if (variables_js_1.copiedMaps.length > 0) {
             selectedCanvases.forEach(function (e, i) {
                 var ctx = e.getContext("2d");

@@ -84,6 +84,37 @@ export const paste = () => {
     "click",
     () => {
       selectedCanvases = selectedCanvases.slice(-copiedMaps.length);
+      console.log("klik");
+
+      if (copiedMaps.length > 0) {
+        selectedCanvases.forEach((e, i) => {
+          const ctx = e.getContext("2d");
+          const img = new Image();
+          img.addEventListener("load", () => {
+            ctx.clearRect(0, 0, s, s);
+            ctx.drawImage(img, 0, 0);
+
+            canvases.splice(0, canvases.length);
+            selectedMaps.splice(0, selectedMaps.length);
+            borderChange();
+            pasted = true;
+            Array.from(document.getElementsByClassName("paste")).forEach(
+              (elem) => {
+                document.querySelector("body").removeChild(elem);
+              }
+            );
+          });
+          img.src = copiedMaps[i].toDataURL();
+        });
+      }
+    },
+    { once: true }
+  );
+  map.addEventListener(
+    "mousedown",
+    () => {
+      selectedCanvases = selectedCanvases.slice(-copiedMaps.length);
+      console.log("klik");
 
       if (copiedMaps.length > 0) {
         selectedCanvases.forEach((e, i) => {
