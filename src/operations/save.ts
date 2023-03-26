@@ -10,7 +10,7 @@ export const save = () => {
   const type = "application/json";
   const name = window.prompt("Filename", "");
   if (name) {
-    const filename = name + ".json";
+    const filename = name + "on";
     const blob = new Blob([data], { type: type });
 
     const url = URL.createObjectURL(blob);

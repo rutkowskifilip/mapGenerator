@@ -1,4 +1,4 @@
-import { mapsElems, selectedMaps } from "../variables.js";
+import { mapsElems, selectedMaps } from "../variables";
 export const borderChange = (): void => {
   mapsElems.forEach((e) => {
     if (e !== null) {

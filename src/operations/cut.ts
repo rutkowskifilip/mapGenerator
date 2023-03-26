@@ -1,6 +1,6 @@
-import { borderChange } from "../actions/borderChange.js";
-import { copiedMaps, setCopiedMaps } from "../variables.js";
-import { clear } from "./clear.js";
+import { borderChange } from "../actions/borderChange";
+import { copiedMaps, setCopiedMaps } from "../variables";
+import { clear } from "./clear";
 
 export const cut = (selectedMaps: HTMLCanvasElement[]) => {
   copiedMaps.forEach((e) => {

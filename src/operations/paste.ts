@@ -1,6 +1,6 @@
-import { borderChange } from "../actions/borderChange.js";
-import { BoundsI, PasteI } from "../types.js";
-import { copiedMaps, map, mapsElems, s, selectedMaps } from "../variables.js";
+import { borderChange } from "../actions/borderChange";
+import { BoundsI, PasteI } from "../types";
+import { copiedMaps, map, mapsElems, s, selectedMaps } from "../variables";
 
 export const paste = () => {
   const selectedBounds: BoundsI[] = new Array();

@@ -1,12 +1,6 @@
-import { borderChange } from "../actions/borderChange.js";
-import { MapI } from "../types.js";
-import {
-  maps,
-  s,
-  selectedMaps,
-  setUndoCount,
-  undoCount,
-} from "../variables.js";
+import { borderChange } from "../actions/borderChange";
+import { MapI } from "../types";
+import { maps, s, selectedMaps, setUndoCount, undoCount } from "../variables";
 
 export const clear = () => {
   const currentChange: MapI[] = new Array();

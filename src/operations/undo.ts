@@ -1,4 +1,4 @@
-import { setUndoCount, undoCount, maps, s } from "../variables.js";
+import { setUndoCount, undoCount, maps, s } from "../variables";
 
 export const undo = () => {
   setUndoCount(undoCount + 1);

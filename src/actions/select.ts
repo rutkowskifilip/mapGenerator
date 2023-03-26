@@ -1,5 +1,5 @@
-import { map, selectedMaps, mapsElems } from "../variables.js";
-import { borderChange } from "./borderChange.js";
+import { map, selectedMaps, mapsElems } from "../variables";
+import { borderChange } from "./borderChange";
 let startX = 0;
 let startY = 0;
 let draw = false;

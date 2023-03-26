@@ -1,5 +1,5 @@
-import { borderChange } from "../actions/borderChange.js";
-import { copiedMaps, setCopiedMaps } from "../variables.js";
+import { borderChange } from "../actions/borderChange";
+import { copiedMaps, setCopiedMaps } from "../variables";
 
 export const copy = (selectedMaps: HTMLCanvasElement[]) => {
   copiedMaps.forEach((e) => {

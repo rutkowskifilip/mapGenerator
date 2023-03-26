@@ -1,4 +1,4 @@
-import { undoCount, setUndoCount, maps, s } from "../variables.js";
+import { undoCount, setUndoCount, maps, s } from "../variables";
 
 export const redo = () => {
   if (undoCount > 0) {

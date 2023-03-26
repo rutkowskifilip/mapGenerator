@@ -1,5 +1,5 @@
-import MapElement from "../classes/MapElement.js";
-import { map } from "../variables.js";
+import MapElement from "../classes/MapElement";
+import { map } from "../variables";
 
 export const load = () => {
   const fileInput: HTMLInputElement = document.getElementById(

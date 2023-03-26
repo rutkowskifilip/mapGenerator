@@ -1,4 +1,4 @@
-import { MapI } from "./types.js";
+import { MapI } from "./types";
 
 export const sprites = document.getElementById("sprites");
 export const map = document.getElementById("map");

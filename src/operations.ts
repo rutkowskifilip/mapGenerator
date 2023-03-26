@@ -1,13 +1,13 @@
-import { save } from "./operations/save.js";
-import { load } from "./operations/load.js";
-import { clear } from "./operations/clear.js";
-import { undo } from "./operations/undo.js";
-import { redo } from "./operations/redo.js";
-import { copy } from "./operations/copy.js";
-import { map, selectedMaps } from "./variables.js";
-import { paste } from "./operations/paste.js";
-import { cut } from "./operations/cut.js";
-import { ContextMenu } from "./classes/ContextMenu.js";
+import { save } from "./operations/save";
+import { load } from "./operations/load";
+import { clear } from "./operations/clear";
+import { undo } from "./operations/undo";
+import { redo } from "./operations/redo";
+import { copy } from "./operations/copy";
+import { map, selectedMaps } from "./variables";
+import { paste } from "./operations/paste";
+import { cut } from "./operations/cut";
+import { ContextMenu } from "./classes/ContextMenu";
 
 export const operations = () => {
   const menu = new ContextMenu(undo, redo, copy, cut, paste, save, load);

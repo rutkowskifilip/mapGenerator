@@ -8,9 +8,9 @@ import {
   sprites,
   undoCount,
   setUndoCount,
-} from "../variables.js";
+} from "../variables";
 
-import { borderChange } from "../actions/borderChange.js";
+import { borderChange } from "../actions/borderChange";
 
 export default class SpriteElement {
   private x: number;

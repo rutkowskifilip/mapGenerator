@@ -1,5 +1,5 @@
-import { mapsElems, s, selectedMaps, map } from "../variables.js";
-import { borderChange } from "../actions/borderChange.js";
+import { mapsElems, s, selectedMaps, map } from "../variables";
+import { borderChange } from "../actions/borderChange";
 export default class MapElement {
   private id: number;
   private url: string;
